@@ -1,16 +1,42 @@
+package ejercicios.Easy.String;
 
-public class RomanToIntenger {
+public class RomanToInteger {
 
-    // Crear un mapa que me permita recorrer la lista de manera eficiente
-    Map<String, Integer> mapaRomanos = new HashMap<>();
-     //
+
+    // Crear un switch que según Notación Big O es la manera más eficiente si son pocos objetos
+    int valor(char c) {
+        switch(c){
+            case 'I': return 1;
+            case 'V': return 5;
+            case 'X': return 10;
+            case 'L': return 50;
+            case 'C': return 100;
+            case 'D': return 500;
+            case 'M': return 1000;
+            default: return 0;
+        }
     }
 
+    public int romanToInt(String s) {
+        int resultado = 0;
 
-    void main(String[] args) {
-        System.out.println();
+        // Crear bucle que va a recorrer el número
+        for (int i = 0; i < s.length(); i++) {
+
+            // Lógica del programa
+            int valorActual = valor(s.charAt(i));
+            int valorSiguiente = (i + 1 < s.length()) ? valor(s.charAt(i + 1)) : 0;
+
+            // Reglas de los números romanos
+            if (valorActual < valorSiguiente) {
+                resultado -= valorActual;
+            } else {
+                resultado += valorActual;
+            }
+        }
+        return resultado;
     }
-
+}
 
 /*
 Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.
