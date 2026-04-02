@@ -1,29 +1,22 @@
 package ejercicios.Easy.String;
 
-public class LongestCommonPrefix {
-        public String longestCommonPrefix(String[] strs) {
+class Solution {
+    public String longestCommonPrefix(String[] strs) {
+        if (strs == null || strs.length == 0) return "";
 
-            // Lógica para saber que haya algo adentro
-            if (strs == null || strs.length == 0){
-                return("");
+        // Creamos un objeto que este ubicada en la primera palabra
+        String palabraRepetida = strs[0];
+
+        // Se crea la lógica del programa
+        for (int i = 1; i < strs.length; i++) {
+
+            // Se identifican todos los index, y si no coinciden se le resta el último hasta que funcione
+            while (strs[i].indexOf(palabraRepetida) != 0) {
+                palabraRepetida = palabraRepetida.substring(0, palabraRepetida.length() - 1);
+
+                if (palabraRepetida.isEmpty()) return "";
             }
-
-            // Tomar la primera palabra de referencia
-            String referencia = strs[0];
-            String palabrasRepetidas = "";
-
-            // Lógica para determinar si palabras se repiten
-            for(int i = 0; i < referencia.length(); i++){
-                char c = referencia.charAt(i);
-
-                for(int j = 1; j < strs.length; j++){
-                    if(i == strs[j].length() || strs[j].charAt(i) != c){
-                        return palabrasRepetidas;
-                    }
-                }
-                palabrasRepetidas = palabrasRepetidas + c;
-            }
-            return palabrasRepetidas;
+        }
+        return palabraRepetida;
     }
-}
-
+} 
