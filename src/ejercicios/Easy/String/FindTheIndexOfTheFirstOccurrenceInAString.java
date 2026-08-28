@@ -3,20 +3,17 @@ package ejercicios.Easy.String;
 /**
  * LeetCode 28 — Find the Index of the First Occurrence in a String.
  *
- * Cinco algoritmos de búsqueda exacta de subcadena, del más simple al óptimo.
- * Todos verificados contra String.indexOf en 1.473.428 casos, incluyendo
- * exhaustivo completo sobre alfabetos binario y ternario.
+ * Varios algoritmos de búsqueda exacta de subcadena, del más simple al óptimo.
+ * Todos verificados contra String.indexOf en más de un millón de casos.
  *
- *   método          tiempo (peor)   espacio   peor tiempo medido (n=10^4)
- *   ------------------------------------------------------------------
- *   strStr          O(n*m)          O(1)          31,7 ms
- *   strStrKMP       O(n+m)          O(m)           0,21 ms
- *   strStrBMH       O(n*m)          O(1)          15,2 ms
- *   strStrShiftOr   O(n)  si m<=64  O(1)           0,08 ms
- *   strStrTwoWay    O(n+m)          O(1)           0,05 ms   <- el mejor
- *
- * Referencia: String.indexOf de la JDK mide 3,17 ms en su peor caso, porque
- * es fuerza bruta vectorizada: rapidísima en texto normal, O(n*m) si la atacan.
+ *   método          tiempo (peor)   espacio
+ *   ------------------------------------------
+ *   strStr          O(n*m)          O(1)
+ *   strStrArray     O(n*m)          O(n+m)
+ *   strStrKMP       O(n+m)          O(m)
+ *   strStrBMH       O(n*m)          O(1)
+ *   strStrShiftOr   O(n) si m<=64   O(1)
+ *   strStrTwoWay    O(n+m)          O(1)   <- el mejor
  */
 public class FindTheIndexOfTheFirstOccurrenceInAString {
 
@@ -34,6 +31,22 @@ public class FindTheIndexOfTheFirstOccurrenceInAString {
             int j = 0;
             // El cortocircuito de && evalúa j < m ANTES de charAt: nunca desborda
             while (j < m && haystack.charAt(i + j) == needle.charAt(j)) j++;
+            if (j == m) return i;
+        }
+        return -1;
+    }
+
+    // Misma fuerza bruta, sobre char[] en vez de charAt() (evita el chequeo
+    // interno de codificación que hace String en cada llamada)
+    public int strStrArray(String haystack, String needle) {
+        char[] h = haystack.toCharArray();
+        char[] n = needle.toCharArray();
+        int m = n.length, len = h.length;
+        if (m > len) return -1;
+
+        for (int i = 0; i <= len - m; i++) {
+            int j = 0;
+            while (j < m && h[i + j] == n[j]) j++;
             if (j == m) return i;
         }
         return -1;
